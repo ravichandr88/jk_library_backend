@@ -3,6 +3,8 @@
 2. POSTMAN-RESTAPI collection link: `https://tinyurl.com/mutp8ke4`
 
 * First call `host/api-token-auth` with username and password to get the access token.
+You can find the username and passwor din .env file, or use createsuperuser.
+I know .env file should be shared seperately, but since this is just test repo I hope it is OK.
     * Add the token in HEADERS of the API calls with following format:
         `
         {"Authorization": "Token zszszszszszszszszszszszs"}
