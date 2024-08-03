@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  db:
+    container_name: core_db
+    image: postgres:15-alpine3.20
+    env_file: .env
+    restart: always
+    volumes:
+      - jk_library_db:/var/lib/postgresql/data
+    networks:
+      - jk_lib_net
+    ports:
+      - 5432:5432
+  jk_lib_backend:
+    image: jk_lib_bac_img
+    container_name: jk_lib_bac_cont
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file: .env
+    # command: ./entrypoint.sh
+    # command: "python3 manage.py migrate && gunicorn library_backend.wsgi:application --bind 0.0.0.0:8000"
+    command: bin/bash /c "python manage.py migrate && gunicorn library_backend.wsgi:application --bind 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    networks:
+      - jk_lib_net
+volumes:
+    jk_library_db:
+networks:
+  jk_lib_net:
