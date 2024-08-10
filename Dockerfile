@@ -16,4 +16,7 @@ RUN pip install psycopg2
 COPY . .
 
 # CMD ["/bin/bash", "-c", "source entrypoint.sh"]
-# CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD python3 manage.py migrate
+# gunicorn library_backend.wsgi:application --bind 0.0.0.0:8000
+CMD ["python3", "manage.py", "migrate", "&&", "gunicorn", "library_backend.wsgi:application", "--bind 0.0.0.0:8000"]
+# ENTRYPOINT  [ "python3", "manage.py", "runserver", "0.0.0.0:8000" ]
